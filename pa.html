@@ -1,0 +1,249 @@
+<html>
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="format-detection" content="telephone=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<title>个人中心</title>
+<script type="text/javascript" src="http://110.42.3.148:1661/xxds/files/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="http://110.42.3.148:1661/xxds/files/js/fastclick.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js" ></script>
+<script type="text/javascript" src="http://110.42.3.148:1661/xxds/files/js/vue.min.js" ></script>
+<script type="text/javascript" src="http://110.42.3.148:1661/xxds/files/js/vue-resource.min.js" ></script>
+<!-- <script type="text/javascript" src="http://110.42.3.148:1661/xxds/files/js/bscroll.min.js"></script> -->
+<link rel="stylesheet" type="text/css" href="http://110.42.3.148:1661/xxds/files/css/alert.css">
+<link rel="stylesheet" type="text/css" href="http://110.42.3.148:1661/xxds/files/css/page.css">
+
+<script src="/xds/config.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var baseUrl = "http://" + window.location.host;
+    var hall = "xds";
+    var hallKey = "";
+</script>
+<script>
+    var wx_ip = "";
+    var wx_port = "200";
+    let token = localStorage.getItem('token');
+    console.log("token :" + token);
+    var userInfo = {
+        id: 0,
+        cards: "0",
+        nickname: "",
+        headimgurl: "",
+        individuality: "",
+        is_opengroup: 0,
+        tel: "",
+        token: "",
+    };
+    var ports = {
+        bpg: 200,
+        bull: 200,
+        chat: 200,
+        ebg: 200,
+        gfl: 200,
+        jsg: 200,
+        lobby: 200,
+        pg: 200,
+        sag: 200,
+    };
+    var hallUrl =  "http://" + window.location.host+"/"+hallKey+".html";
+
+</script>
+<script src="http://110.42.3.148:1661/xxds/common.js" charset="utf-8"></script>
+<script type="text/javascript">
+
+	$(function() {  
+		FastClick.attach(document.body);  
+	});
+
+	var newNum = "";
+	var per = window.innerWidth / 530;
+	var globalData = {
+		  "card": userInfo.cards.toString(),
+            "baseUrl": "",
+        "fileUrl": "http://110.42.3.148:1661/xxds/",
+        "hallPath":hallUrl,
+        "gameList": eval('(' + '[{"game_type":"1","game_name":"🐂🐂合集","game_icon":"icon_bull6.png"},{"game_type":"4","game_name":"炸 金:花","game_icon":"icon_flower.png"},{"game_type":"5","game_name":"三公","game_icon":"icon_sangong.png"},{"game_type":"6","game_name":"二八杠","game_icon":"icon_erbagang.png"},{"game_type":"7","game_name":"斗地主","game_icon":"icon_landlord.png"},{"game_type":"8","game_name":"广东麻将","game_icon":"icon_majiang.png"},{"game_type":"9","game_name":"鱼虾蟹","game_icon":"icon_yxx.png"},{"game_type":"10","game_name":"牌九","game_icon":"icon_paijiu.png"},{"game_type":"12","game_name":"开船🐂🐂","game_icon":"icon_dxbull.png"},{"game_type":"13","game_name":"大吃小","game_icon":"icon_dcx.png"},{"game_type":"14","game_name":"赖子🐂🐂","game_icon":"icon_laibull.png"}]' + ')')
+	};
+	var userData = {
+		 "accountId": userInfo.id.toString(),
+            "nickname": userInfo.nickname,
+            "avatar": userInfo.headimgurl,
+            "isManageOn":  userInfo.is_opengroup,
+            "userCode": userInfo.id.toString(),
+            "card": userInfo.cards.toString(),
+            "isAuthPhone": "0",
+            "phone": "",
+	};
+	var configData = {
+		"appId": "wxd1ce30763b23e374",
+		"timestamp": "1606469284",
+		"nonceStr": "422d31463d4732fe14bfe4f26095dcf8",
+		"signature": "1e1f41b382d8cde859772cb185b223b96800be62",
+	};
+    
+    function setPassword(){
+    window.location.href = "/webinfo.html"; 
+    }
+
+</script>
+
+</head>
+
+<body style="background-color: #0e0226">
+
+	<div id="loading" style="position: fixed;width:100%;height:100%;top:0;left:0;background: #000" >
+		<img src="http://110.42.3.148:1661/xxds/files/images/common/loading.gif" style="top: 40%;position: absolute;left: 50%;margin-left: -45px;margin-top: -45px;" />
+	</div>
+
+<!-- style="position: relative; width: 100%;margin: 0 auto; background: #0e0226; " -->
+	<div class="main" id="app-main" style="position: absolute; left: 0;top: 0;display: none;">
+
+        <div class="background">
+            <div class="black"></div>
+        </div>
+        
+		<!-- 提示框 -->
+		<div class="alert" id="valert" v-show="isShowAlert">
+			<div class="alertBack"></div>
+			<div class="mainPart">
+				<div class="backImg">
+					<div class="blackImg"></div>
+				</div>
+				<div class="alertText">{{alertText}}</div>				
+				<div v-show="alertType==3">
+					<div class="buttonLeft" v-on:click="closeAlert">确定</div>
+					<div class="buttonRight" v-on:click="closeAlert">取消</div>
+				</div>			
+				<div v-show="alertType==7">
+					<div class="buttonMiddle" v-on:click="closeAlert">确定</div>
+				</div>	
+				<div v-show="alertType==8">
+				</div>
+				<div v-show="alertType==23">
+					<div class="buttonMiddle" v-on:click="finishBindPhone()">确定</div>
+				</div>
+                <div v-show="alertType==24">
+                    <div class="buttonLeft" v-on:click="finishManageOn()">确定</div>
+                    <div class="buttonRight" v-on:click="closeAlert">取消</div>
+                </div>          				
+			</div>
+		</div>
+
+        <!-- 用户头像 -->
+        <div class="head">
+            <div class="backcolor"></div>
+            <div class="avatar">
+                <img v-bind:src="user.avatar">
+                <div class="id">ID:<span style="color: orange">{{user.userCode}}</span></div>
+            </div>
+            <div class="name">{{user.nickname}}</div>
+
+            <img class="phone1" src="http://110.42.3.148:1661/xxds/files/images/activity/homepage_phone.png" v-on:click="clickPhone" v-show="!isPhone">
+            <div class="phone2" v-on:click="clickEditPhone" v-show="isPhone">{{phone}}&nbsp&nbsp修改</div>
+
+            <div class="roomcard" >
+                <div class="num">{{roomCard}}</div>
+                <div class="text"><img style="position: relative;z-index: 50;height:10vw;" src="http://110.42.3.148:1661/xxds/files/images/activity/roomCard.png" /></div>
+            </div>
+        </div>
+
+        <!-- 大厅 -->
+        <div class="row" v-on:click="hall">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_hall.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+            <p class="rcContent">游戏大厅</p>
+        </div>
+        
+		<!-- 发送记录 -->
+        <div class="row" v-on:click="showSendRedpackage">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_sendredpackage.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+            <p class="rcContent">发送房卡</p>
+        </div>
+		
+        <!-- 查看记录 -->
+         <div class="row" v-on:click="showRedpackageRecord">
+        	<img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_redpackage.png" class="rcIcon">
+        	<img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+        	<p class="rcContent">收发记录</p>
+        </div>
+
+        <div class="row"  v-on:click="clickTransfer" v-show="isPhone">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_transfer.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+            <p class="rcContent">转移房卡</p>
+        </div>
+
+        <div class="row"  v-on:click="clickRoomSearch">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_search.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+            <p class="rcContent">开房查询</p>
+        </div>
+
+        <div class="row"  v-on:click="clickPlayRoomSearch">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_search.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+            <p class="rcContent">战绩查询</p>
+        </div>
+      
+        <div class="row" onclick="setPassword()">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_search.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_rightarrow.png" class="rcArrow">
+            <p class="rcContent">设置账号</p>
+        </div>
+
+        <!-- 管理功能 -->
+        <div class="row" >
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_icon_group.png" class="rcIcon">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_group_close.png" class="btnOnOff"  v-on:click="openManage" v-show="!userData.isManageOn">
+            <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_group_open.png"  class="btnOnOff"  v-on:click="closeManage" v-show="userData.isManageOn">
+            <p class="rcContent">群主管理</p>
+        </div>
+       
+        <div class="rowGroup" v-show="userData.isManageOn">
+            <div class="groupInvite" v-on:click="clickInvite">
+                <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_group_invite.png">
+                <div class="vline"></div>
+                <div class="text">邀请成员</div>
+            </div>
+            <div class="groupMember" v-on:click="clickGroupMember">
+                <img src="http://110.42.3.148:1661/xxds/files/images/activity/rc_group_member.png">
+                <div class="vline"></div>
+                <div class="text">群组成员</div>
+            </div>
+        </div>
+  
+		<!-- 绑定手机号码 -->
+		<div id="validePhone" style="display: none;" v-show="isShowBindPhone">
+			<div class="phoneMask" style="" v-on:click="hideBindPhone"></div>
+			<div class="phoneFrame" style="">
+			    <div style="height: 2.2vw;"></div>
+				<div class="title" v-if="isPhone">{{phoneText}}</div>
+				<div class="title" v-if="!isPhone">绑定手机号，防止房卡丢失。</div>
+
+				<div style="height: 2.2vw;"></div>
+				<div class="phoneRow">
+					<input  v-on:input="phoneChangeValue()" v-model="sPhone" type="number" name="phone" placeholder="输入手机号" style="top:2.5vw;width: 48vw;">
+					<div id="authcode" v-on:click="getAuthcode()" class="sendCode">
+						{{authcodeText}}
+					</div>
+				</div>
+				<div class="phoneRow">
+					<input  v-model="sAuthcode" type="number" name="phone1" placeholder="输入验证码" style="top:1vw;width: 72vw;">
+				</div>
+				<div style="height: 2.2vw;"></div>
+				<div class="phoneBind" v-on:click="bindPhone()">
+					<div class="bind">立即绑定</div>
+				</div>
+				<div style="height:4vw;"></div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+
+<script type="text/javascript" src="http://110.42.3.148:1661/xxds/files/js/page.js"></script>
+
+</html>
