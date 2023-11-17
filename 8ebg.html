@@ -47,7 +47,7 @@
 	  sag: 200,
 	};
 
-	var baseUrl= "http://" + window.location.host+"/"+hallKey+".html";
+
 	var roomInfo = {
 		"room_number":"",
 		"roomStatus":"",
@@ -65,6 +65,9 @@
     document.getElementsByTagName("title")[0].innerText = roomInfo.titleInfo;
 </script>
 <script src="http://110.42.3.148:1661/xxds/common.js" charset="utf-8"></script>
+<script>
+    var baseUrl= "http://" + window.location.host+"/"+hallKey+".html";
+</script>
     <script>
         document.documentElement.style.fontSize = document.documentElement.clientWidth / 360*100 + 'px';
         window.addEventListener('load', function() {
