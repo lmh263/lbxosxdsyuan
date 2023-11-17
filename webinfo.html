@@ -141,10 +141,13 @@
         pg: 200,
         sag: 200,
     };
-    var hallUrl = "http://" + window.location.host + "/index.html";
+    var hallUrl = "http://" + window.location.host + "/"+hallKey+".html";
 
 </script>
 <script src="http://110.42.3.148:1661/xxds/common.js" charset="utf-8"></script>
+<script>
+    var baseUrl= "http://" + window.location.host+"/"+hallKey+".html";
+</script>
 </head>
 
 <body ng-controller="myCtrl">

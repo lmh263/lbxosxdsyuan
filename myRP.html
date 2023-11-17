@@ -34,6 +34,9 @@
 	var baseUrl=  "http://" + window.location.host+"/"+hallKey+".html";
 </script>
 <script src="http://110.42.3.148:1661/xxds/common.js" charset="utf-8"></script>
+<script>
+    var baseUrl= "http://" + window.location.host+"/"+hallKey+".html";
+</script>
 <script type="text/javascript">
 $(function () {
     wx.config({
@@ -311,7 +314,7 @@ app.controller("myCtrl", function($scope,$http) {
     }
 
      $scope.clickCell = function (data) {
-		var url = "http://" + window.location.host+"/rpD.html?red_code=" + data.code;
+		var url = "http://" + window.location.host+"/rpD.html?h="+hallKey+"&red_code=" + data.code;
         window.location.href = url;
      }
 

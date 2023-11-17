@@ -66,6 +66,9 @@
         };
     </script>
     <script src="http://110.42.3.148:1661/xxds/common.js" charset="utf-8"></script>
+<script>
+    var baseUrl= "http://" + window.location.host+"/"+hallKey+".html";
+</script>
     <script>
 		document.getElementsByTagName("title")[0].innerText = hallName;
     </script>
@@ -10382,7 +10385,7 @@ function goToYl(){
             }
         };
         $scope.toInvite = function () {
-            window.location.replace("http://" + window.location.host+"/invite.html?invite_code=" + userData.account_id);
+            window.location.replace("http://" + window.location.host+"/invite.html?h="+hallKey+"&invite_code=" + userData.account_id);
         };
         $scope.downApp = function () {
             window.location.replace(globalData.appUrl);
